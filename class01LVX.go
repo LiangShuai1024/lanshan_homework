@@ -39,6 +39,7 @@ func binarySearch(nums [100]int, num int, low int, high int) int {
 */
 func main() {
 	var r int
+	fmt.Println("现生成一个随机数r...")
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 	r = rand.Intn(100) + 1
 	var a [100]int
@@ -50,6 +51,6 @@ func main() {
 		//fmt.Println(a[i-1])
 	}*/
 	spot := binarySearch(a, r, 1, 101)
-	fmt.Println("经二分查找法得出的数为：", a[spot])
-	fmt.Println("答案为：", r)
+	fmt.Println("经二分查找法得出该数为：", a[spot])
+	fmt.Println("而正确答案r为：", r)
 }
