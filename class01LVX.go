@@ -39,7 +39,7 @@ func binarySearch(nums [100]int, num int, low int, high int) int {
 */
 func main() {
 	var r int
-	fmt.Println("现生成一个随机数r...")
+	fmt.Println("现从1~100中选取一个随机数r...")
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 	r = rand.Intn(100) + 1
 	var a [100]int
