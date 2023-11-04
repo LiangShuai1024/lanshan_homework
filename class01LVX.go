@@ -50,7 +50,7 @@ func main() {
 		fmt.Println(a[i-1])
 		//fmt.Println(a[i-1])
 	}*/
-	spot := binarySearch(a, r, 1, 101)
+	spot := binarySearch(a, r, 1, 100)
 	fmt.Println("经二分查找法得出该数为：", a[spot])
 	fmt.Println("而正确答案r为：", r)
 }
