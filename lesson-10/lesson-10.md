@@ -18,6 +18,7 @@
 ![linux发行版本](/lesson-10/v2-linux发行版本.png)
 
 Linux发行版主要有三个分支：Debian、Slackware、Redhat。
+
 (1)Debian:（以社区的方式运作）
 
 1. Ubuntu:基于Debian开发的开源Linux操作系统，主要针对桌面和服务器；
@@ -127,7 +128,7 @@ $ cd /var/spool/mail/            ##进入到/var/spool/mail/下
 $ cd ../lpd/                     ##返回上一层目录并进入lpd目录
 $ cd ../..                       ##返回上边的两级目录回到/var目录下
 ```
-![linux目录结构01](lesson-10/linux目录结构02.png)
+![linux目录结构01](/lesson-10/linux目录结构02.png)
 
 
 ##### 总而言之
