@@ -12,7 +12,7 @@
 
 ### linux 的各个发行版
 
-![img](/v2-linux发行版本.png)
+![img](/lesson-10/v2-linux发行版本.png)
 
 Linux发行版主要有三个分支：Debian、Slackware、Redhat。
 (1)Debian:（以社区的方式运作）
