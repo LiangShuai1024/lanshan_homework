@@ -48,12 +48,12 @@ Linux发行版主要有三个分支：Debian、Slackware、Redhat。
  ls / 
 ```
 你会看到如下图所示:
-![linux目录结构01](lesson-10/linux目录结构01.png)
+![linux目录结构01](/lesson-10/linux目录结构01.png)
 
 根目录 `/` 是整个文件系统的起始点，但实际上，Linux 文件系统采用了一种层次结构来组织文件和目录。
 
 树状目录结构：
-![linux目录结构02](lesson-10/linux目录结构02.png)
+![linux目录结构02](/lesson-10/linux目录结构02.png)
 
 根目录 `/` 下有许多子目录，这些子目录用于组织不同类型的文件和系统资源。以下是一些常见的子目录及其用途：
 
