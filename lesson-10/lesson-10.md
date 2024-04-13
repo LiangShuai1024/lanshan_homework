@@ -235,7 +235,7 @@ su [用户名]
 普通用户之间的切换需要输入需要登陆的对应的用户的密码
 
 切换用户后可以按ctrl + d回到原来的用户。
-
+***
 
 ### 二、目录操作
 
@@ -366,7 +366,7 @@ su [用户名]
   普通授权    chmod +x a.txt    
   8421法     chmod 754 a.txt     //1+2+4=7，"7"说明授予所有权限
 ```
-![linux_chmod](/lesson-10/linux_chmod.png)
+![linux_chmod](/lesson-10/linux_chmod.gif)
 
 ![linux权限](/lesson-10/linux权限.png)
 
