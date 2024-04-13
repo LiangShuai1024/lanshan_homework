@@ -135,11 +135,27 @@ $ cd ../..                       ##返回上边的两级目录回到/var目录�
 因此文件的相对路径**不是**固定不变的。
 
 
-### linux常用命令(以Ubuntu为主)
+### linux常用命令
+
+### 命令格式
+
+```
+$command    [option(s)]   [argument(s)]
+
+命令名   空格   选项    空格     参数
+```
+##### **注意：**
+
+- `每个命令行可使用的最多的命令字符是256个`
+- `命令区分大小写`
+- `不同的命令提示符使用分隔符号 “/”`
+- `命令中的参数/选项可以是多个，并且参数其实就是要传入命令程序主函数main的参数`
+- `[ ] 表示这个内容可以不包含，比如 [argument(s)] ，输入命令时可以不加参数`
+
 
 ##### 安装
 
-###### **Ubuntu（apt）**
+##### Ubuntu（apt）
 
 - 安装软件包
 
@@ -166,74 +182,6 @@ sudo apt search packageName  # 搜索软件包
 ```
 sudo apt-get update  # 更新软件包列表
 ```
-
-###### **CentOS（yum）**
-
-- 安装软件包
-
-```
-sudo yum update  # 更新软件包列表（yum）
-sudo yum install packageName  # 安装软件包（yum）
-```
-
-- 删除软件包
-
-```
-sudo yum remove packageName  # 删除软件包
-```
-
-- 搜索软件包
-
-```
-sudo yum search packageName  # 搜索软件包（yum）
-```
-
-- 更新软件包列表
-
-```
-sudo yum update  # 更新软件包列表（yum）
-```
-
-###### **Alpine（apk）**
-
-- 安装软件包
-
-```
-apk add packageName  # 安装软件包
-```
-
-- 删除软件包
-
-```
-apk del packageName  # 删除软件包
-```
-
-- 搜索软件包
-
-```
-apk search packageName  # 搜索软件包
-```
-
-- 更新软件包列表
-
-```
-apk update  # 更新软件包列表
-```
-***
-### 命令格式
-
-```
-$command    [option(s)]   [argument(s)]
-
-命令名   空格   选项    空格     参数
-```
-##### **注意：**
-
-- `每个命令行可使用的最多的命令字符是256个`
-- `命令区分大小写`
-- `不同的命令提示符使用分隔符号 “/”`
-- `命令中的参数/选项可以是多个，并且参数其实就是要传入命令程序主函数main的参数`
-- `[ ] 表示这个内容可以不包含，比如 [argument(s)] ，输入命令时可以不加参数`
 
 ### 一、基础操作
 ##### 1.1 关闭系统
@@ -331,9 +279,7 @@ $command    [option(s)]   [argument(s)]
 ### 三、文件操作
 
 #### **3.00 传输文件(scp)**
-```
-	scp /opt/data.txt  192.168.1.101:/opt/    //将本地opt目录下的data文件发送到192.168.1.101服务器的opt目录下
-```
+
 [scp相关文章]：
 
 https://www.runoob.com/linux/linux-comm-scp.html
@@ -431,9 +377,169 @@ https://blog.csdn.net/u012964600/article/details/135078489
   unzip -l test.zip          //查看*.zip文件的内容 
 ```
 
+##### 常用快捷键
+```
+ #停止进程
+ ctrl + c
+ #清屏
+ ctrl + l
+```
+
+
+## SSH登录
+
+>1、linux服务器下一般都会安装ssh服务，ssh服务可以建立安全的远程连接，方便日常通过一台linux设备维护其他的服务器设备。
+> 
+>2、SSH是一种网络协议，用于计算机之间的加密登录。如果一个用户从本地计算机，使用SSH协议登录另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露。最早的时候，互联网通信都是明文通信，一旦被截获，内容就暴露无疑。1995年，芬兰学者Tatu Ylonen设计了SSH协议，将登录信息全部加密，成为互联网安全的一个基本解决方案，迅速在全世界获得推广，目前已经成为Linux系统的标准配置。
+>
+>3、SSH之所以能够保证安全，原因在于它采用了公钥加密。整个过程是这样的：
+> 
+>（1）远程主机收到用户的登录请求，把自己的公钥发给用户。 （2）用户使用这个公钥，将登录密码加密后，发送回来。 （3）远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录。
+
+#### 安装SSH服务(debian，ubuntu，linux mint等系列的linux发行版)
+```
+sudo apt-get install sshd 
+sudo apt-get install openssh-server
+```
+
+#### 开启SSH服务
+```
+service sshd start
+```
+#### 卸载SSH服务
+```
+sudo apt-get –purge remove sshd
+```
+### 一、参数列表
+
+|        参数         |	功能|
+|:-----------------:|-|
+|  -l \<username>   |	指定登录的用户名|
+|    -p \<port>     |	指定远程SSH服务器端口（默认为22）|
+|  -i \<identity>   |	指定用于身份验证的私钥文件|
+|        -C	        |启用压缩以加速数据传输|
+|     :     -X	     |开启X11转发，允许远程显示GUI界面|
+| -L <local:remote> |	创建本地端口转发|
+| -R <remote:local> |	创建远程端口转发|
+
+### 二、使用介绍
+
+#### 1. 连接远程服务器
+要连接到远程服务器，您可以使用以下命令：
+```
+ssh -l username hostname
+```
+其中，username是您要登录的远程服务器的用户名，hostname是服务器的主机名或IP地址。执行此命令后，系统将提示您输入密码，验证后即可登录。
+
+#### 2. 使用SSH密钥登录
+使用SSH密钥对进行身份验证比使用密码更加安全和方便。以下是使用SSH密钥登录的步骤：
+
+#### 2.1 生成密钥对
+
+在本地计算机上执行以下命令生成密钥对：
+```
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/mykey
+```
+这将生成一个名为mykey的RSA密钥对，保存在~/.ssh/目录中。
+
+#### 2.2 将公钥复制到远程服务器
+
+执行以下命令将公钥复制到远程服务器，替换username和hostname：
+```
+ssh-copy-id -i ~/.ssh/mykey.pub username@hostname
+```
+现在您可以使用私钥连接到远程服务器，而无需输入密码：
+```
+ssh -i ~/.ssh/mykey username@hostname
+```
+
+SSH还支持端口转发，允许您在本地和远程主机之间建立安全的通信通道。以下是两种常见的端口转发方式：
+
+#### 3.1 本地端口转发
+通过本地端口转发，您可以将本地计算机上的某个端口映射到远程服务器上。例如，以下命令将本地计算机的端口8080映射到远程服务器的端口80：
+```
+ssh -L 8080:localhost:80 username@hostname
+```
+
+#### 3.2 远程端口转发
+通过远程端口转发，您可以将远程服务器上的某个端口映射到本地计算机上。例如，以下命令将远程服务器的端口3306（MySQL）映射到本地计算机的端口3306：
+```
+ssh -R 3306:localhost:3306 username@hostname
+```
+
+#### 4. X11转发
+SSH还允许您在远程计算机上显示GUI应用程序。要启用X11转发，只需在连接时添加-X参数：
+```
+ssh -X username@hostname
+```
+这将允许您在远程会话中打开图形界面应用程序，并将其显示在本地计算机上。
+
+#### 5. 文件传输与远程命令执行
+SSH命令不仅可以用于远程登录，还可以进行文件传输和远程命令执行。下面将介绍如何使用SSH命令进行这些操作。
+
+#### 5.1 文件传输
+#### 5.1.1 从本地向远程传输文件
+您可以使用scp命令将本地文件传输到远程服务器。以下示例将本地文件file.txt传输到远程主机的/tmp目录：
+```
+scp file.txt username@hostname:/tmp
+```
+```
+scp /opt/data.txt  192.168.1.101:/opt/    //将本地opt目录下的data文件发送到192.168.1.101服务器的opt目录下
+```
+#### 5.1.2 从远程服务器下载文件
+使用scp命令也可以从远程服务器下载文件到本地计算机。以下示例将远程服务器上的/path/to/remote/file.txt文件下载到本地当前目录：
+```
+scp username@hostname:/path/to/remote/file.txt .
+```
+[scp相关文章]：
+
+https://www.runoob.com/linux/linux-comm-scp.html
+
+https://blog.csdn.net/u012964600/article/details/135078489
+
+#### 5.2 远程命令执行
+5.2.1 在远程服务器上执行单个命令
+使用SSH命令，您可以在远程服务器上执行单个命令，而无需登录到远程主机。以下示例演示如何在远程服务器上列出/tmp目录的内容：
+```
+ssh username@hostname ls /tmp
+```
+#### 5.2.2 在远程服务器上执行脚本
+您还可以将本地脚本传输到远程服务器并在远程主机上执行。以下步骤演示了如何实现：
+
+传输本地脚本到远程服务器：
+```
+scp script.sh username@hostname:/path/to/remote/
+```
+在远程服务器上执行脚本：
+```
+ssh username@hostname /path/to/remote/script.sh
+```
+#### 6. SSH配置和安全性增强
+SSH命令的安全性和功能可以通过配置文件进行定制和增强。以下是一些常见的配置和安全性增强方法：
+
+#### 6.1 修改SSH配置文件
+SSH的配置文件位于/etc/ssh/sshd_config（服务器端）和~/.ssh/config（客户端）。您可以通过修改这些文件来定制SSH的行为，如更改端口、禁用密码登录等。
+
+#### 6.2 使用多因素认证
+为了增加安全性，您可以启用多因素认证（MFA）来登录到远程服务器。MFA需要用户提供多个身份验证因素，如密码和验证码。通常使用Google Authenticator或Duo Security等工具实现MFA。
+
+#### 6.3 配置防火墙规则
+使用防火墙来限制远程SSH访问。可以配置防火墙规则，仅允许特定IP地址范围的计算机访问SSH端口。
+
+#### 6.4 禁用Root登录
+禁用Root用户直接通过SSH登录，以减少风险。您可以通过修改SSH配置文件中的PermitRootLogin选项来实现。
+
+#### 总结
+SSH命令是远程管理、文件传输和安全通信的强大工具。
+
+通过掌握SSH命令的各种功能和配置选项，您可以更有效地进行远程系统管理，保护数据的安全性，以及确保系统的稳定性。
+
+了解和使用SSH命令将使您在编程和系统管理领域更具竞争力，为您的工作带来巨大便利和安全性。
+
+
 ### 六、其他常用命令
 
-##### 6.1 find
+##### 6.1 `find`
 ```
   find . -name "*.c"     #将目前目录及其子目录下所有延伸档名是 c 的文件列出来
   find . -type f         #将目前目录其其下子目录中所有一般文件列出
@@ -443,18 +549,18 @@ https://blog.csdn.net/u012964600/article/details/135078489
   find / -type f -size 0 -exec ls -l {} \;         #为了查找系统中所有文件长度为0的普通文件，并列出它们的完整路径
 ```
 
-##### 6.2 whereis
+##### 6.2 `whereis`
 ```
   whereis ls             //将和ls文件相关的文件都查找出来
 ```
 
-##### 6.3 which
+##### 6.3 `which`
 ```
   #说明：which指令会在环境变量$PATH设置的目录里查找符合条件的文件。
   which bash             #查看指令"bash"的绝对路径
 ```
 
-##### 6.4 sudo
+##### 6.4 `sudo`
 
 ```
   #说明：sudo命令以系统管理者的身份执行指令，也就是说，经由 sudo 所执行的指令就好像是 root 亲自执行。需要输入自己账户密码。
@@ -463,14 +569,14 @@ https://blog.csdn.net/u012964600/article/details/135078489
   $ sudo -u yao vi ~www/index.html     #以 yao 用户身份编辑  home 目录下www目录中的 index.html 文件
 ```
 
-##### 6.5 grep
+##### 6.5 `grep`
 ```
   grep -i "the" demo_file              #在文件中查找字符串(不区分大小写)
   grep -A 3 -i "example" demo_text     #输出成功匹配的行，以及该行之后的三行
   grep -r "ramesh" *                   #在一个文件夹中递归查询包含指定字符串的文件
 ```
 
-##### 6.6 service
+##### 6.6 `service`
 ```
   说明：service命令用于运行System V init脚本，这些脚本一般位于/etc/init.d文件下，这个命令可以直接运行这个文件夹里面的脚本，而不用加上路径
   service ssh status      #查看服务状态 
@@ -478,45 +584,37 @@ https://blog.csdn.net/u012964600/article/details/135078489
   service ssh restart     #重启服务 
 ```
 
-##### 6.7 free
+##### 6.7 `free`
 ```
   #说明：这个命令用于显示系统当前内存的使用情况，包括已用内存、可用内存和交换内存的情况 
   free -g            #以G为单位输出内存的使用量，-g为GB，-m为MB，-k为KB，-b为字节 
   free -t            #查看所有内存的汇总
 ```
 
-##### 6.8 top
+##### 6.8 `top`
 ```
   top               #显示当前系统中占用资源最多的一些进程, shift+m 按照内存大小查看
 ```
 
-##### 6.9 df
+##### 6.9 `df`
 ```
   #说明：显示文件系统的磁盘使用情况
   df -h            #一种易看的显示
 ```
 
-##### 6.10 mount
+##### 6.10 `mount`
 ```
   mount /dev/sdb1 /u01              #挂载一个文件系统，需要先创建一个目录，然后将这个文件系统挂载到这个目录上
   dev/sdb1 /u01 ext2 defaults 0 2   #添加到fstab中进行自动挂载，这样任何时候系统重启的时候，文件系统都会被加载 
 ```
 
-##### 6.11 uname
+##### 6.11 `uname`
 ```
   #说明：uname可以显示一些重要的系统信息，例如内核名称、主机名、内核版本号、处理器类型之类的信息 
   uname -a
 ```
 
-##### 6.12 yum
-```
-  #说明：安装插件命令
-  yum install httpd      #使用yum安装apache 
-  yum update httpd       #更新apache 
-  yum remove httpd       #卸载/删除apache 
-```
-
-##### 6.13 rpm
+##### 6.12 `rpm`
 ```text
   #说明：插件安装命令
   rpm -ivh httpd-2.2.3-22.0.1.el5.i386.rpm      #使用rpm文件安装apache 
@@ -524,12 +622,12 @@ https://blog.csdn.net/u012964600/article/details/135078489
   rpm -ev httpd                                 #卸载/删除apache 
 ```
 
-##### 6.14 date
+##### 6.13 `date`
 ```
   date -s "01/31/2010 23:59:53"   #设置系统时间
 ```
 
-##### 6.15 wget
+##### 6.14 `wget`
 ```
   #说明：使用wget从网上下载软件、音乐、视频 
   wget http://xxx
@@ -537,13 +635,13 @@ https://blog.csdn.net/u012964600/article/details/135078489
   wget -O nagios.tar.gz http://xxx
 ```
 
-##### 6.16 ftp
+##### 6.15 `ftp`
 ```
    ftp IP/hostname    #访问ftp服务器
    mls *.html -       #显示远程主机上文件列表
 ```
 
-##### 6.17 管道 ｜
+##### 6.16 管道 ｜
 竖线符号 `|` 是管道符号（Pipe Symbol）。该符号用于将一个命令的输出传递给另一个命令作为输入，以便二者之间进行数据传输和处理。
 
 ```
@@ -619,107 +717,9 @@ lsof -i:8080
   netstat -an | grep 8080     #查看指定端口8080
 ```
 
-##### 常用快捷键
-```
- #停止进程
- ctrl + c
- #清屏
- ctrl + l
-```
-
 [Linux命令大全]：
 http://www.runoob.com/linux/linux-command-manual.html
-
-
 [一个linux网课]:
 https://www.lanqiao.cn/courses/1
 
-
-#### 上传二进制文件到服务器
-
-这就是编译好的二进制文件，可以在任何linux上运行
-
-我们可以通过以下命令，将此文件上传到服务器
-
-```
-#将当前目录下main文件拷贝到127.0.0.1的/home/路径下
-scp main root@127.0.0.1:/home/
-```
-
-如果想要免密登录 配置SSH即可
-
-1.在主机A创建密钥对
-
-```
-ssh-keygen #创建证书
-```
-
-然后均回车（选择默认）
-
-2、将文件上传至免登录主机B的authorized_keys
-
-```
-/root/.ssh/authorized_keys
-```
-
-#### 上传源代码到服务器
-
-通常会先将源码上传到github再拉下来，或者使用goland一键上传
-
-[服务器go安装](https://blog.csdn.net/qq_43098070/article/details/126075629)
-
-然后进入项目目录直接编译即可
-
-```
-go build main.go
-```
-
-#### 运行程序
-
-现在服务器上有编译好的二进制文件了，那我们如何运行它？
-
-只需要
-
-```
-./main
-```
-
-非常的简单
-
-但是我们会发现无法运行，因为文件没有权限
-
-这时候只需要
-
-```
-chmod +x main
-chmod 733 main
-```
-
-给它高权限再次运行即可
-
-这时候，使用云服务器的同学们需要去控制台找到安全组的配置规则，在入方向添加相应端口
-
-##### 后台运行
-
-如果按以上方式运行，当我们关闭窗口时会发现程序被终止了
-
-那有什么办法可以让程序在后台运行呢？
-
-我们可以使用 tmux，systemctl 或者 nohup+& 命令
-
-###### nohup+&
-
-```
-nohup ./main &
-```
-
-###### tmux
-
-[tmux](https://www.ruanyifeng.com/blog/2019/10/tmux.html)
-
-###### systemctl
-
-[systemctl设置自己的systemd.service服务设置守护进程](https://blog.csdn.net/lonnng2004/article/details/88964763)
-
-[systemctl 详解](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html)
 
