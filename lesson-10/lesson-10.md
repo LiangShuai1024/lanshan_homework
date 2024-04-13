@@ -123,7 +123,7 @@ $ cd /var/spool/mail/            ##进入到/var/spool/mail/下
 $ cd ../lpd/                     ##返回上一层目录并进入lpd目录
 $ cd ../..                       ##返回上边的两级目录回到/var目录下
 ```
-![linux目录结构01](/lesson-10/linux目录结构02.png)
+![linux目录结构03](/lesson-10/linux目录结构03.png)
 
 
 ##### 总而言之
@@ -351,6 +351,7 @@ su [用户名]
 ### 四、文件权限
 
 ##### 4.1 权限说明
+![linux文件权限](/lesson-10/linux文件权限.png)
 ```
   文件权限简介：'r' 代表可读（4），'w' 代表可写（2），'x' 代表执行权限（1），括号为"8421法"
   ##文件权限信息示例：-rwxrw-r--
@@ -365,8 +366,9 @@ su [用户名]
   普通授权    chmod +x a.txt    
   8421法     chmod 754 a.txt     //1+2+4=7，"7"说明授予所有权限
 ```
+![linux_chmod](/lesson-10/linux_chmod.png)
 
-
+![linux权限](/lesson-10/linux权限.png)
 
 ### 五、打包与解压
 
