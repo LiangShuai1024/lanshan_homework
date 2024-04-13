@@ -213,7 +213,7 @@ sudo apt-get update  # 更新软件包列表
   su yao    #切换为用户"yao",输入后回车需要输入该用户的密码
   exit      #退出当前用户
 ```
-##### 1.Linux下用户的分类
+### 1.Linux下用户的分类
 
 Linux下有两种用户：超级用户（root）、普通用户。
 
@@ -738,6 +738,7 @@ lsof -i:8080
 
 [Linux命令大全]：
 http://www.runoob.com/linux/linux-command-manual.html
+
 [一个linux网课]:
 https://www.lanqiao.cn/courses/1
 
