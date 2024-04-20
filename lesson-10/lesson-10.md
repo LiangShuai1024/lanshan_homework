@@ -123,7 +123,7 @@ $ cd /var/spool/mail/            ##进入到/var/spool/mail/下
 $ cd ../lpd/                     ##返回上一层目录并进入lpd目录
 $ cd ../..                       ##返回上边的两级目录回到/var目录下
 ```
-![linux目录结构01](/lesson-10/linux目录结构02.png)
+![linux目录结构03](/lesson-10/linux目录结构03.png)
 
 
 ##### 总而言之
