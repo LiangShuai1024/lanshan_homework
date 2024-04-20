@@ -123,7 +123,7 @@ $ cd /var/spool/mail/            ##进入到/var/spool/mail/下
 $ cd ../lpd/                     ##返回上一层目录并进入lpd目录
 $ cd ../..                       ##返回上边的两级目录回到/var目录下
 ```
-![linux目录结构03](/lesson-10/linux目录结构03.png)
+![linux目录结构01](/lesson-10/linux目录结构02.png)
 
 
 ##### 总而言之
@@ -213,7 +213,7 @@ sudo apt-get update  # 更新软件包列表
   su yao    #切换为用户"yao",输入后回车需要输入该用户的密码
   exit      #退出当前用户
 ```
-### 1.Linux下用户的分类
+##### 1.Linux下用户的分类
 
 Linux下有两种用户：超级用户（root）、普通用户。
 
@@ -235,7 +235,7 @@ su [用户名]
 普通用户之间的切换需要输入需要登陆的对应的用户的密码
 
 切换用户后可以按ctrl + d回到原来的用户。
-***
+
 
 ### 二、目录操作
 
@@ -291,7 +291,7 @@ su [用户名]
 
 ##### 2.7 搜索目录（find）
 ```
-  find /bin -name 'a*'        #查找/bin目录下的所有以a开头的文件或者目录
+  find /bin/ -name 'a*'        #查找/bin目录下的所有以a开头的文件或者目录
 ```
 
 ##### 2.8 查看当前目录（pwd）
@@ -340,6 +340,12 @@ su [用户名]
   vim -R /etc/passwd                     //以只读模式打开文件
 ```
 
+[vim操作相关网站]:
+
+https://www.runoob.com/linux/linux-vim.html
+
+https://blog.csdn.net/Sevel7/article/details/105189768
+
 ##### 3.4 查看文件
 ```
   cat a.txt          #查看文件最后一屏内容
@@ -351,7 +357,6 @@ su [用户名]
 ### 四、文件权限
 
 ##### 4.1 权限说明
-![linux文件权限](/lesson-10/linux文件权限.png)
 ```
   文件权限简介：'r' 代表可读（4），'w' 代表可写（2），'x' 代表执行权限（1），括号为"8421法"
   ##文件权限信息示例：-rwxrw-r--
@@ -366,9 +371,8 @@ su [用户名]
   普通授权    chmod +x a.txt    
   8421法     chmod 754 a.txt     //1+2+4=7，"7"说明授予所有权限
 ```
-![linux_chmod](/lesson-10/linux_chmod.gif)
 
-![linux权限](/lesson-10/linux权限.png)
+
 
 ### 五、打包与解压
 
@@ -738,7 +742,6 @@ lsof -i:8080
 
 [Linux命令大全]：
 http://www.runoob.com/linux/linux-command-manual.html
-
 [一个linux网课]:
 https://www.lanqiao.cn/courses/1
 
