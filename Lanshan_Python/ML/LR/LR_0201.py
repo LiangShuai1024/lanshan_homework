@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 data = pd.read_csv('../DataSet/Dry_Bean_Dataset.csv')
 df = pd.DataFrame(data)
 
@@ -13,11 +14,16 @@ for i in df['Class'][0:3349]:
         label.append(0)
     else:
         label.append(1)
+# 循环遍历df中的 'Class' 列前3349行数据
+# 并进行判断，clas列中的字符为SEKER，则标签为0，其他为1，这里对数据进行也处理，把以其他字符表示的类别，变为0/1类别
 x1 = df['MajorAxisLength'][0:3349]
 x2 = df['MinorAxisLength'][0:3349]
+# 取MajorAxisLength' 和 'MinorAxisLength' 列的前3349行数据，存进x1和x2中
 train_data = list(zip(x1, x2, label))
+# 使用 zip 函数将 'MajorAxisLength'、'MinorAxisLength' 和标签数据组合成一个列表。每个元素是一个包含两个特征和一个标签的元组，这样就形成了训练数据集。
+# zip把（）中的元素对应合成
 
-
+# 一些参数的初始化
 class Logistic_Regression:
     def __init__(self, traindata, alpha=0.001, circle=1000, batchlength=40):
         self.traindata = traindata  # 训练数据集
@@ -25,18 +31,27 @@ class Logistic_Regression:
         self.circle = circle  # 学习次数
         self.batchlength = batchlength  # 把3349个数据分成多个部分，每个部分有batchlength个数据
         self.w = np.random.normal(size=(3, 1))  # 随机初始化参数w
-
+        # np.random.normal从正态（高斯）分布中抽取随机样本
+        # loc=, scale=, size=（x,y,z）
+        # loc为分布的均值（中心）,scale为分布的标准差（宽度），size为输出的维度,会抽取x*y*z个样本
     def data_process(self):
-        '''做随机梯度下降，打乱数据顺序，并把所有数据分成若干个batch'''
+        ''' 做随机梯度下降，打乱数据顺序，并把所有数据分成若干个batch '''
         np.random.shuffle(self.traindata)
+        # np.random.shuffle对数据进行随机打乱，使每次迭代数据顺序不一，可增加模型的泛化能力。
         data = [self.traindata[i:i + self.batchlength]
                 for i in range(0, len(self.traindata), self.batchlength)]
+        # 这里是列表推导式，将打乱顺序后的数据集按照批次长度self.batchlength划分成若干个小批次，
+        # self.traindata[i:i + self.batchlength]为切片操作，
+        # 用于从训练数据集 self.traindata 中获取从索引 i 开始，到索引 i + self.batchlength 结束的一段数据。
+        # 这样就得到了一个批次大小为 self.batchlength 的数据。
+        # for从0开始，以elf.batchlength为步长，不超过len(self.traindata)
+        # 每个小批次包含了一定数量的样本数据。这样做是为了在训练过程中能够批量地对数据进行处理，提高训练效率。
         return data
 
     def train1(self):
         '''根据损失函数（1）来进行梯度下降，这里采用随机梯度下降'''
         for i in range(self.circle):
-            batches = self.data_process()
+            batches = self.data_process()  # 调用上述函数，批量获取数据，存入batches
             print('the {} epoch'.format(i))  # 程序运行时显示执行次数
             for batch in batches:
                 d_w = np.zeros(shape=(3, 1))  # 用来累计w导数值
@@ -64,6 +79,9 @@ class Logistic_Regression:
         plt.xlabel('MajorAxisLength')
         plt.ylabel('MinorAxisLength')
         plt.show()
+
+
+    # 均方差似乎不佳，这里就不细写了
 
     def train2(self):
         '''用均方损失函数来进行梯度下降求解'''
