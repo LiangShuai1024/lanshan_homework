@@ -54,28 +54,28 @@ class Logistic_Regression:
             batches = self.data_process()  # 调用上述函数，批量获取数据，存入batches
             print('the {} epoch'.format(i))  # 程序运行时显示执行次数
             for batch in batches:
-                d_w = np.zeros(shape=(3, 1))  # 用来累计w导数值
+                d_w = np.zeros(shape=(3, 1))  # 初始化一个3*1的全零矩阵，用来累计w导数值
                 for j in batch:  # 取batch中每一组数据
-                    x0 = np.r_[j[0:2], 1]  # 把数据中指标取出，后面补1
+                    x0 = np.r_[j[0:2], 1]  # 把数据中指标取出，后面补1，np.r_用于将数组沿行方向链接
                     x = np.mat(x0).T  # 转化成列向量
                     y = j[2]  # 标签
-                    dw = (self.sigmoid(self.w.T * x) - y)[0, 0] * x
-                    d_w += dw
-                self.w -= self.alpha * d_w / self.batchlength
+                    dw = (self.sigmoid(self.w.T * x) - y)[0, 0] * x  # 获取参数的梯度
+                    d_w += dw  # 梯度的累加
+                self.w -= self.alpha * d_w / self.batchlength  # 根据累计梯度更新步长
         w = regr.w
         w1 = w[0, 0]
         w2 = w[1, 0]
         w3 = w[2, 0]
         x = np.arange(190, 500)
         y = -w1 * x / w2 - w3 / w2
-        plt.plot(x, y)
+        plt.plot(x, y)  # 绘制一条直线，这里用于绘制决策边界
         color = []
         for i in df['Class'][0:3349]:
             if i == 'SEKER':
                 color.append('red')
             else:
                 color.append('blue')
-        plt.scatter(df['MajorAxisLength'][0:3349], df['MinorAxisLength'][0:3349], color=color)
+        plt.scatter(df['MajorAxisLength'][0:3349], df['MinorAxisLength'][0:3349], color=color)  # 绘制散点图
         plt.xlabel('MajorAxisLength')
         plt.ylabel('MinorAxisLength')
         plt.show()
