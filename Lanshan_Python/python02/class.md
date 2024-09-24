@@ -145,7 +145,7 @@ result = get_sub_sum(30,14)
 print(result)
 print('-'*50)
 
-# 3.输出：人生苦短，我用Python(输出没有返回值)
+# 3.输出：(输出没有返回值)
 def show():
     print("蓝山工作室")
 print(show())
@@ -208,13 +208,7 @@ def print_lines(num):
 
 print_lines(10)
 ```
-#### 内置函数
 
-[Python 内置函数](https://docs.python.org/zh-cn/3/library/functions.html)
-
-#### 导入模块中的函数
-
-[Python 标准库](https://docs.python.org/zh-cn/3/library/index.html)
 
 ```python
 import math
@@ -239,6 +233,11 @@ a = int(input("a="))
 b = int(input("b="))
 print("a+b={}".format(add(a, b)))
 ```
+
+#### 内置函数
+
+[Python 内置函数](https://docs.python.org/zh-cn/3/library/functions.html)
+
 ## 模块
 
 
@@ -298,6 +297,9 @@ __all__ 是模块中的一个特殊变量，它定义了模块中应该被导入
 当我们运行别的文件的时候，__name__ 是不会被设置成 __main__ 的
 
 
+#### 导入模块中的函数
+
+[Python 标准库](https://docs.python.org/zh-cn/3/library/index.html)
 
 ## 文件处理
 ### 1 引言
@@ -380,37 +382,87 @@ file = open('example.txt', 'r')
 # 进行文件操作
 file.close()
 ```
-### 列表和元组
+### 异常基础
+在Python中，异常是一种特殊的对象，用于处理程序运行过程中发生的错误情况。
+当Python解释器检测到一个错误，它会抛出（raise）一个异常。如果这个异常没有被捕获（catch），程序就会终止并显示一个错误消息，即跟踪回溯（traceback）。
+通过使用*try…except*语句块，我们可以捕获异常并采取适当措施。
 
-```
-l = [1,2,3,4,5]
-t = (1,2,3,4,5)
-```
-
-- 索引访问列表
-- 修改列表
-- 求列表长度
-- 列表切片
-- 列表追加元素
-- 列表合并
-- 列表插入元素
-- 列表删除元素
-- 列表排序
-- 列表拷贝
-- 列表循环
-
-### 字典
-
+代码示例：基本异常处理
 ```python
-my_dict = {"name": "Alice", "age": 25, "city": "New York"}
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("除数不能为0")
+```
+*核心特性和优势:*
+- *增强程序健壮性：* 通过预测和处理潜在错误，确保程序不会意外终止。
+- *提高代码可读性：* 明确地指出哪些部分代码可能会出错，并给出处理方案。
+- *模块化错误处理：* 允许在不同层级捕获和处理异常，使得错误处理逻辑更加集中和模块化。
+
+### 三、技术细节
+*异常层次结构*
+Python中的异常类形成了一个层次结构，位于BaseException之下，
+常见的如Exception、ValueError等。了解这一结构有助于精准地捕获特定类型的异常。
+
+*自定义异常*
+开发者可以自定义异常类，继承自内置的异常类，以更好地表达特定业务逻辑中的错误情况。
+```python
+class MyCustomError(Exception):
+    pass
+
+def some_function():
+    raise MyCustomError("发生了一个自定义错误")
+
+try:
+    some_function()
+except MyCustomError as e:
+    print(e)
+
+```
+*异常链*
+当在异常处理块中再次抛出异常时，可以使用raise from语法保留原始异常信息，形成异常链，便于调试。
+
+### 应用场景：文件操作
+文件读取时，可能遇到文件不存在、权限不足等多种错误，合理使用异常处理可以优雅地应对这些问题。
+```python
+try:
+    with open("example.txt", 'r') as file:
+        content = file.read()
+except FileNotFoundError:
+    print("文件未找到，请检查路径是否正确。")
+except PermissionError:
+    print("没有足够的权限访问文件。")
+else:
+    print(content)
+finally:
+    print("文件操作完成，无论是否成功都会执行此段代码。")
 ```
 
-- 访问字典元素
-- 修改字典元素
-- 添加新的键值对
-- 删除键值对
-- 求字典大小
-- 字典键列表
-- 字典遍历
-- 字典合并
-- 字典拷贝
+### 五、优化与改进
+*避免过度捕获*
+仅捕获那些你确实能够处理的异常，避免使用过于宽泛的except Exception，这会捕获所有异常，可能隐藏真正的错误。
+
+*使用上下文管理器和装饰器*
+利用上下文管理器和装饰器可以进一步封装异常处理逻辑，使代码更加整洁
+```python
+from contextlib import contextmanager
+
+def handle_file(path):
+    try:
+        f = open(path, 'r')
+        yield f
+    except FileNotFoundError:
+        print(f"{path} not found.")
+    finally:
+        f.close()
+
+with handle_file("example.txt") as file:
+    content = file.read()
+```
+
+### 六、常见问题
+*问题1：忽视异常信息*
+解决方案：始终打印或记录异常的具体信息，以便于问题定位。
+
+*问题2：过度使用except:捕获所有异常*
+解决方案：尽量精确捕获异常类型，必要时才使用宽泛捕获，并提供合理的错误处理逻辑。
