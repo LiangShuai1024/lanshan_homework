@@ -661,7 +661,8 @@ A.py文件调用类
 from B import sum
 get_sum=sum(4,5)
 value=get_sum.add()
-########或者
+```
+```python
 import B
 get_sum=B.sum(4,5)
 value=get_sum.add()
@@ -676,7 +677,7 @@ from B import sum
 get_sum=sum(4,5)
 value=get_sum.add()
 ```
-在加载.py文件时经常会遇到 no module name ""，遇到该问题的时候我们要确定文件的路径是否错误
+在加载.py文件时经常会遇到 no module name，遇到该问题的时候我们要确定文件的路径是否错误
 
 #### 导入模块中的函数
 
