@@ -310,7 +310,7 @@ al(10)  # 通过别名al来使用sleep功能
 
 例如，我们创建一个自定义模块:
 
-![自定义模块](/python02/自定义模块.png)
+![自定义模块](/python02/picture.png)
 
 使用它：
 ```python
@@ -480,6 +480,7 @@ file = open('example.txt', 'r')
 file.close()
 ```
 [Python超详细基础文件操作（详解版）](https://blog.csdn.net/z_ipython/article/details/135587034#:~:text=Python%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%B0)
+
 [Python文件操作，看这篇就足够](https://zhuanlan.zhihu.com/p/56909212)
 
 ### 异常基础
