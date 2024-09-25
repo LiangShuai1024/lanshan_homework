@@ -34,24 +34,19 @@ def 函数名([参数, ..]):
     ...
     [return 具体的返回值]
 ```
+- `return [表达式]` 结束函数，选择性地返回一个值给调用方。不带表达式的return相当于返回 None
+
 ### 1.2 函数定义与调用
 
-Python函数需要使用`def`关键字来定义。
-
+Python函数 以 `def` 关键字开头，后接函数标识符名称和圆括号()
 函数在使用时，特点：
 
 - （1）先定义，后调用；
 - （2）不调用，不执行；
 - （3）调用一次，执行一次。
 
-
-调用函数：
-```text
-函数名()
-```
-
-`实例：`
-（1）编写一个show()函数，并在函数中输出：bug虐我千百遍, 我待bug如初恋。
+**实例：**
+（1）编写一个show()函数，并在函数中输出内容。
 
 （2）调用函数，观察执行结果。
 ```python
@@ -69,56 +64,107 @@ def show():
 ```
 
 ### 1.2 函数的参数
+
+[详解Python函数参数定义及传参](https://blog.csdn.net/yyykj/article/details/103122665)
+
 当在定义函数时，设定了参数，则可称该函数为：有参函数。反之，没有参数的函数，称为：无参函数。
 
-定义有参数的函数，语法:
-
 ```text
+# 定义有参数的函数
 def 函数名(参数1,参数2,...):  # 形参
 	代码1
     代码2
     ...
-```
-
-调用函数，语法：
-```text
+# 调用函数    
 函数名(参数值1,参数值2,...)  # 实参
 ```
+
 **说明：**
 - （1）形参是指形式参数，表示在定义函数时的参数；
 
 - （2）实参是指实际参数，表示在调用函数时传递的参数值，具有实际意义。
 
-**实例：**
-（1）定义一个函数，用于求解两个数之和；
-
-（2）接着，调用函数并执行程序，观察效果。
+#### 必备参数
+必备参数须以正确的顺序传入函数。调用时的数量必须和声明时的一样，且要关注参数的类型
 ```python
-# 1.定义函数
-def get_sum(a,b):
-    sum = a + b
-    print(f"两个数之和为:{sum}")
-
-# 2.调用函数
-get_sum(10,20)
+def printme(str,num):
+    print(str,num)
+    return 
+printme(蓝山,666)
 ```
-**总结：**
-- （1）当定义了有参数的函数时，调用函数也需要传递参数值；
+#### 关键字参数
+关键字参数和函数调用关系紧密，函数调用使用关键字参数来确定传入的参数值。
+使用关键字参数允许函数调用时参数的顺序与声明时不一致，因为 Python 解释器能够用参数名匹配参数值
+```python
+def printme(str,num):
 
-- （2）注意：当给有参函数传递参数时，要关注参数的三要素：个数、类型、顺序。
+   return
+ 
+printme(num = 666, str = "My string")
+```
+#### 默认参数
+调用函数时，默认参数的值如果没有传入，则被认为是默认值
+````python
+def printinfo( name, age = 35 ):
+   "打印任何传入的字符串"
+   print("Name: ", name)
+   print ("Age ", age)
+   return
 
+printinfo( age=50, name="miki" )
+printinfo( name="miki" )
+````
+#### 不定长元组参数
+不定长元组参数，就是不确定数量的参数，定义一个参数把传入的参数组合成元组，来接收函数调用时传递过来的N个参数，
+在函数体内以元组形式按顺序读取。
+```python
+def printinfo( str, *vartuple ):
+   print(str)
+   for var in vartuple:
+      print(var)
+   return
+
+printinfo( 10 )
+printinfo( 70, 60, 50 )
+```
+#### 匿名函数
+python 使用 lambda 来创建匿名函数。
+- lambda只是一个表达式，函数体比def简单很多。
+- lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去。
+- lambda函数拥有自己的命名空间，且不能访问自有参数列表之外或全局命名空间里的参数。
+- 虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用栈内存从而增加运行效率。
+```python
+sum = lambda arg1, arg2: arg1 + arg2
+num = lambda: 666
+
+print ("相加后的值为 : ", sum( 10, 20 ))
+print(num)
+# 输出形如 <function <lambda> at 0x00000249F7AD7B00> 的结果
+# 这一长串复杂的十六进制数是函数num的内存地址
+print(num())
+# 在函数名num后面加上括号，才能正确地输出666
+```
+#### 全局变量和局部变量
+定义在函数内部的变量拥有一个局部作用域，定义在函数外的拥有全局作用域。
+
+局部变量只能在其被声明的函数内部访问，而全局变量可以在整个程序范围内访问。调用函数时，所有在函数内声明的变量名称都将被加入到作用域中。
+```python
+total = 0 # 这是一个全局变量
+
+def sum( arg1, arg2 ):
+   
+   total = arg1 + arg2 # total在这里是局部变量.
+   print ("函数内是局部变量 : ", total)
+   return total
+ 
+#调用sum函数
+sum( 10, 20 )
+print("函数外是全局变量 : ", total)
+```
 ### 1.3 函数的返回值
 
 函数的返回值指的是：当函数完成一件事情后，最后要返回给函数的结果。
 
-返回值语法：
-```text
-def 函数名([参数1, 参数2, ...]):
-	代码1
-	代码2
-	...
-	return 值
-```
 - （1）若要给函数返回结果，需要使用return关键字；
 - （2）return关键字的作用：把结果返回给函数；结束函数；
 - （3）当函数没有返回值时，默认返回None。
@@ -213,7 +259,6 @@ print_lines(10)
 def add(a: int, b: int) -> int:
     return a + b
 
-
 a = int(input("a="))
 b = int(input("b="))
 print("a+b={}".format(add(a, b)))
@@ -265,6 +310,8 @@ al(10)  # 通过别名al来使用sleep功能
 
 例如，我们创建一个自定义模块:
 
+![自定义模块](/python02/自定义模块.png)
+
 使用它：
 ```python
 import test  # 导入我们的自定义模块
@@ -281,9 +328,8 @@ test.ptint1()  # 使用里面的功能
 这会导入模块中的所有变量、函数和类，我们可以在当前命名空间中直接使用它们。
 
 （注意：这种方法可以快速地导入模块中的所有内容，但可能导致命名冲突，因此通常不推荐使用）
-
+***
 **`__all__ `** 是模块中的一个特殊变量，它定义了模块中应该被导入的内容。
-
 
 在Python中，**`__main__`** 是一个特殊的模块，它主要用于执行模块中的main()函数。
 
@@ -433,10 +479,8 @@ file = open('example.txt', 'r')
 # 进行文件操作
 file.close()
 ```
-[Python超详细基础文件操作（详解版）]：
-https://blog.csdn.net/z_ipython/article/details/135587034#:~:text=Python%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%B0
-[Python文件操作，看这篇就足够]:
-https://zhuanlan.zhihu.com/p/56909212
+[Python超详细基础文件操作（详解版）](https://blog.csdn.net/z_ipython/article/details/135587034#:~:text=Python%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%B0)
+[Python文件操作，看这篇就足够](https://zhuanlan.zhihu.com/p/56909212)
 
 ### 异常基础
 
@@ -550,22 +594,4 @@ else:
     print(content)
 finally:
     print("文件操作完成，无论是否成功都会执行此段代码。")
-```
-
-**使用上下文管理器和装饰器**
-利用上下文管理器和装饰器可以进一步封装异常处理逻辑，使代码更加整洁
-```python
-from contextlib import contextmanager
-
-def handle_file(path):
-    try:
-        f = open(path, 'r')
-        yield f
-    except FileNotFoundError:
-        print(f"{path} not found.")
-    finally:
-        f.close()
-
-with handle_file("example.txt") as file:
-    content = file.read()
 ```
