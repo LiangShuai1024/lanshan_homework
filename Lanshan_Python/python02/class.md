@@ -207,19 +207,6 @@ def print_lines(num):
 print_lines(10)
 ```
 
-
-```python
-import math
-
-
-print(math.floor(32.9))
-```
-
-```python
-from datetime import datetime
-
-print(datetime.now())
-```
 #### 自己编写函数
 
 ```python
@@ -317,30 +304,59 @@ test.ptint1()  # 使用里面的功能
 
 [Python 标准库](https://docs.python.org/zh-cn/3/library/index.html)
 
+```python
+import math
+
+
+print(math.floor(32.9))
+```
+
+```python
+from datetime import datetime
+
+print(datetime.now())
+```
+
 ## 文件处理
 
 在 Python 编程中，文件操作是一项基础且重要的技能，无论是数据分析、网络编程还是自动化脚本，都离不开对文件的读写操作。
 
-### 文件打开 ———— **`open`** 函数
-在 Python 中，使用内置的 **`open`** 函数来打开文件。**`open`** 函数的基本语法如下：
+### 文件打开 ———— `open` 函数
+在 Python 中，使用内置的 `open` 函数来打开文件。`open` 函数的基本语法如下：
 ```python
 file_object = open(file_name, mode)
 ```
+完整的语法格式为：
+```python
+open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
+```
+参数说明:
+
+- file: 必需，文件路径（相对或者绝对路径）。
+- mode: 可选，文件打开模式
+- buffering: 设置缓冲
+- encoding: 一般使用utf8
+- errors: 报错级别
+- newline: 区分换行符
+- closefd: 传入的file参数类型
+- opener: 设置自定义开启器，开启器的返回值必须是一个打开的文件描述符。
+- 
 - **file_name：** 文件的路径和名称。
 - **mode：** 打开文件的模式。常用模式包括 `'r'`（只读），`'w'`（只写），`'a'`（追加），`'r+'`（读写），`'b'`（二进制模式）。
 当使用 Python 的 open 函数打开文件时，mode 参数定义了文件应该以什么模式打开。不同的模式决定了文件如何被读取或写入。以下是 mode 参数的不同选项及其描述：
 
-| 模式      |                        	描述                        |
-|---------|:-------------------------------------------------:|
-| `'r'`   |             只读模式。如果文件不存在，会发生异常。这是默认模式             |
-| `'w'`   |          只写模式。如果文件存在，将被覆盖。如果文件不存在，创建新文件           |
-| `'a'`   |     追加模式。如果文件存在，写入的数据将被追加到文件末尾。如果文件不存在，创建新文件      |
-| `'r+'`  |           读写模式。可以读取和写入文件。如果文件不存在，会发生异常            |
-| `'w+'`  |          读写模式。如果文件存在，将被覆盖。如果文件不存在，创建新文件           |
-| `'a+'`  |     读写模式。如果文件存在，写入的数据将被追加到文件末尾。如果文件不存在，创建新文件      |
-| `'x'`   |       独占写模式。如果文件已存在，操作将失败。只有在创建新文件时才使用这种模式        |
-| `'b'`   |二进制模式。用于非文本文件如图像或二进制数据。可以与其他模式结合使用(如 `'rb'` 或 `'wb'`) |
-| `'t'`   |文本模式（默认）。用于文本文件处理。可以与其他模式结合使用(如 `'rt'` 或 `'wt'`)|
+| 模式     |                        	描述                        |
+|--------|:-------------------------------------------------:|
+| `'r'`  |             只读模式。如果文件不存在，会发生异常。这是默认模式             |
+| `'w'`  |          只写模式。如果文件存在，将被覆盖。如果文件不存在，创建新文件           |
+| `'a'`  |     追加模式。如果文件存在，写入的数据将被追加到文件末尾。如果文件不存在，创建新文件      |
+| `'+'`  |             打开一个文件进行更新(可读可写)            |
+| `'r+'` |           读写模式。可以读取和写入文件。如果文件不存在，会发生异常            |
+| `'w+'` |          读写模式。如果文件存在，将被覆盖。如果文件不存在，创建新文件           |
+| `'a+'` |     读写模式。如果文件存在，写入的数据将被追加到文件末尾。如果文件不存在，创建新文件      |
+| `'x'`  |       独占写模式。如果文件已存在，操作将失败。只有在创建新文件时才使用这种模式        |
+| `'b'`  |二进制模式。用于非文本文件如图像或二进制数据。可以与其他模式结合使用(如 `'rb'` 或 `'wb'`) |
+| `'t'`  |文本模式（默认）。用于文本文件处理。可以与其他模式结合使用(如 `'rt'` 或 `'wt'`)|
 
 可以根据需要选择适合的模式来打开文件。
 
@@ -369,12 +385,31 @@ with open('example.txt', 'r') as file:
         line = file.readline()
 
 # 使用 readlines()
+# Hello, this is line 1.   
+# This is line 2.   
+# And this is line 3. 
+with open('file.txt', 'r') as file:
+    line1 = file.readline()
+    line2 = file.readline()
+    line3 = file.readline()
+
+print(line1)  # 输出：Hello, this is line 1.
+print(line2)  # 输出：This is line 2.
+print(line3)  # 输出：And this is line 3.
+
+# 文件迭代器
+# 文件对象是可迭代的，因此我们可以使用for循环逐行读取文件内容
 with open('example.txt', 'r') as file:
     lines = file.readlines()
     for line in lines:
         print(line, end='')
 ```
+- `readlines` 方法用于读取文件的**所有行**，并将每一行作为一个字符串存储在列表 lines 中
 
+  适用于处理包含多行文本的文件，可以一次性将整个文件加载到内存中。这种方法适用于文件较小，可以完全装入内存的情况
+- `readline` 方法用于读取文件的**一行**，并将该行作为一个字符串存储在变量 line 中,每个 `readline`调用都会读取文件的下一行
+  适用于逐行处理大型文件，可以有效地降低内存使用。因为它一次只读取一行，可以在循环中逐行处理文件，而不必将整个文件加载到内存中
+- `with open(...) as file` : 是使用**上下文管理器**的方式，确保文件在使用后被正确关闭，即使在处理文件时发生异常也能保证关闭。
 ### 4 文件写入
 ### 4.1 写入文本
 使用 `write()` 方法可以将文本写入文件：
@@ -392,27 +427,85 @@ with open('example.txt', 'w') as file:
 ### 4.3 文件关闭
 在 Python 中，使用 `with` 语句打开文件是最佳实践，因为它会确保文件在操作完成后自动关闭。
 
-如果使用传统的 `open()` 和 `close()` 方法，务必不要忘记调用 `close()` 来关闭文件。
+如果使用传统的 `open()` 和 `close()` 方法，务必不要忘记调用 `close()` 来关闭文件，以避免资源泄漏。
 ```python
 file = open('example.txt', 'r')
 # 进行文件操作
 file.close()
 ```
+[Python超详细基础文件操作（详解版）]：
+https://blog.csdn.net/z_ipython/article/details/135587034#:~:text=Python%E6%8F%90%E4%BE%9B%E4%BA%86%E4%B8%B0
+[Python文件操作，看这篇就足够]:
+https://zhuanlan.zhihu.com/p/56909212
+
 ### 异常基础
+
+#### python标准异常
+| 异常名称  |               	描述                |
+|-------|:--------------------------------:|
+| SyntaxError | 语法错误。由于代码书写不规范导致的。例如，括号不匹配、缺少冒号等 |
+| NameError |         尝试访问未定义的变量或函数时引发         |
+| TypeError |         使用不兼容的类型进行操作时引发          |
+| ZeroDivisionError |          尝试除以(或取模)零时引发           |
+| FileNotFoundError |          尝试打开不存在的文件时引发           |
+| IndexError |       尝试访问列表或序列中不存在的索引时引发        |
+| FileNotFoundError |          尝试打开不存在的文件时引发           |
+
 在Python中，异常是一种特殊的对象，用于处理程序运行过程中发生的错误情况。
 
 当Python解释器检测到一个错误，它会抛出（raise）一个异常。
 
 如果这个异常没有被捕获（catch），程序就会终止并显示一个错误消息，即跟踪回溯（traceback）。
 
-通过使用**try…except**语句块，我们可以捕获异常并采取适当措施。
-
-代码示例：基本异常处理
+通过使用**try…except**语句块，我们可以捕获异常并采取适当措施,其基本语法如下：
 ```python
 try:
-    result = 10 / 0
+    # 可能触发异常的代码
+except ExceptionType:
+    # 处理异常的代码
+```
+当try子句中的代码触发异常时，程序将跳转到与该异常类型匹配的except子句，并执行相应的处理代码。
+
+如果try子句中的代码没有触发异常，except子句将被忽略。
+
+一个try语句可以有多个except子句，用于处理不同类型的异常。
+
+此外，还可以使用一个不带异常类型的except子句来捕获所有异常，但这通常不推荐，因为它会隐藏程序中的逻辑错误
+```python
+try:
+    # 可能触发异常的代码
+except ValueError:
+    # 处理ValueError异常的代码
 except ZeroDivisionError:
-    print("除数不能为0")
+    # 处理ZeroDivisionError异常的代码
+except Exception as e:
+    # 处理其他所有异常的代码
+    print("An error occurred:", e)
+
+```
+
+**`try-except-else`语句**
+try-except语句还可以包含一个else子句，用于在try子句中的代码没有触发异常时执行
+```python
+try:
+    # 可能触发异常的代码
+except ExceptionType:
+    # 处理异常的代码
+else:
+    # 如果没有异常发生，执行这里的代码
+    print("Everything went fine")
+```
+
+**`try-finally`语句**
+try-finally语句用于确保无论是否发生异常，某些代码都会被执行，例如释放资源或关闭文件等
+```python
+try:
+    # 可能触发异常的代码
+except ExceptionType:
+    # 处理异常的代码
+finally:
+    # 无论是否发生异常，都会执行的代码
+	print("This code will always run")
 ```
 **核心特性和优势:**
 - **增强程序健壮性：** 通过预测和处理潜在错误，确保程序不会意外终止。
@@ -428,23 +521,20 @@ Python中的异常类形成了一个层次结构，位于BaseException之下，
 
 **自定义异常**
 
-开发者可以自定义异常类，继承自内置的异常类，以更好地表达特定业务逻辑中的错误情况。
+开发者可以自定义异常类，应直接或间接继承自内置的Exception类，以更好地表达特定业务逻辑中的错误情况。
 ```python
 class MyCustomError(Exception):
     pass
 
-def some_function():
-    raise MyCustomError("发生了一个自定义错误")
-
+def functionName( level ):
+    if level < 1:
+        raise Exception("Invalid level!", level) # # 这里使用raise语句自己触发异常
+        # 触发异常后，后面的代码就不会再执行 
 try:
-    some_function()
+    functionName(0)
 except MyCustomError as e:
     print(e)
-
 ```
-**异常链**
-
-当在异常处理块中再次抛出异常时，可以使用raise from语法保留原始异常信息，形成异常链，便于调试。
 
 ### 应用场景：文件操作
 文件读取时，可能遇到文件不存在、权限不足等多种错误，合理使用异常处理可以优雅地应对这些问题。
@@ -462,13 +552,7 @@ finally:
     print("文件操作完成，无论是否成功都会执行此段代码。")
 ```
 
-### 五、优化与改进
-**避免过度捕获**
-
-仅捕获那些你确实能够处理的异常，避免使用过于宽泛的except Exception，这会捕获所有异常，可能隐藏真正的错误。
-
 **使用上下文管理器和装饰器**
-
 利用上下文管理器和装饰器可以进一步封装异常处理逻辑，使代码更加整洁
 ```python
 from contextlib import contextmanager
@@ -485,12 +569,3 @@ def handle_file(path):
 with handle_file("example.txt") as file:
     content = file.read()
 ```
-
-### 六、常见问题
-**问题1：忽视异常信息**
-
-解决方案：始终打印或记录异常的具体信息，以便于问题定位。
-
-**问题2：过度使用except:捕获所有异常**
-
-解决方案：尽量精确捕获异常类型，必要时才使用宽泛捕获，并提供合理的错误处理逻辑。
