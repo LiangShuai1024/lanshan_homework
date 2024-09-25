@@ -310,7 +310,7 @@ al(10)  # 通过别名al来使用sleep功能
 
 例如，我们创建一个自定义模块:
 
-![自定义模块](/python02/picture.png)
+![自定义模块](../python02/picture.png)
 
 使用它：
 ```python
