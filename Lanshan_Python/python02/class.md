@@ -268,8 +268,288 @@ print("a+b={}".format(add(a, b)))
 
 [Python 内置函数](https://docs.python.org/zh-cn/3/library/functions.html)
 
-## 模块
+## 面向对象
+### 1. 什么是面向对象编程（OOP）？
+**面向对象编程（Object-Oriented Programming，OOP）** 是一种程序设计范式，它以对象为中心，将数据和操作数据的方法（函数）组合到一个单元中，这个单元就是对象。每个对象都是类的一个实例，而类则定义了对象的属性（数据）和方法（代码）。换句话说，面向对象编程将现实世界中的实体抽象为程序中的对象，这些对象可以相互交互、传递消息，并且可以继承和扩展。
 
+面向对象编程通常具有以下几个核心概念：
+
+- **类（Class）**：定义了对象的模板，包括数据和方法。
+- **对象（Object）**：类的实例，具有特定的属性和方法。
+- **封装（Encapsulation）**：将数据（属性）和操作数据的方法（函数）封装到对象中，使得对象的内部细节对外部不可见。
+- **继承（Inheritance）**：允许一个类（子类）继承另一个类（父类）的属性和方法，并且可以添加自己的特定属性和方法。
+- **多态（Polymorphism）**：允许不同类的对象对同一个方法做出不同的响应，提高代码的灵活性和可重用性。
+
+一个简单的例子：
+
+假设我们要模拟一个动物园中的动物。
+
+我们可以使用定义一个 Animal（动物）类，并创建具体的动物对象。
+
+这就是面向对象编程的两个概念了，类、对象。
+```python
+# 定义 Animal（动物）类
+class Animal:
+    # 首先定义了一个 Animal（动物）类，它有两个属性 name（名字）和 age（年龄）
+    # 在 __init__ 构造函数中，我们初始化了这两个属性。
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    # Animal 类有一个 make_sound（发出声音）方法，
+    # 但在基类中我们只定义了方法的签名，没有具体的实现。
+    # 这是因为我们无法确定所有动物的叫声，具体的叫声会在子类中实现。
+    def make_sound(self):
+        pass
+ 
+# 然后我们定义了两个具体的动物类 Cat（猫）和 Dog（狗），它们都继承自 Animal 类。
+# 这意味着 Cat 和 Dog 类会继承 Animal 类的属性和方法，并且可以根据需要添加自己的属性和方法
+# 在 Cat 类和 Dog 类中，我们重写了 make_sound 方法，分别返回了猫和狗的叫声
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow"
+ 
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof"
+ 
+# 最后，我们创建了两个具体的动物对象 cat1 和 dog1，分别是一只名叫 "Kitty" 的猫和一只名叫 "Buddy" 的狗
+cat1 = Cat("Kitty", 3)
+dog1 = Dog("Buddy", 5)
+ 
+# 我们调用了这两个动物对象的 make_sound 方法，并打印出它们的名字和叫声
+print(cat1.name, "says:", cat1.make_sound())  # 输出：Kitty says: Meow
+print(dog1.name, "says:", dog1.make_sound())  # 输出：Buddy says: Woof
+```
+### 类和对象的关系
+在这个例子中，Animal 是一个基类（父类），它定义了动物的基本属性和方法。然后，Dog 和 Cat 是 Animal 类的子类（也可以称为派生类），它们继承了 Animal 类的属性和方法，并且还可以定义自己独特的属性和方法。
+
+当我们创建 my_dog 和 my_cat 时，实际上是在内存中实例化了两个对象，每个对象都有自己的 name 和 age 属性，并且可以调用 make_sound() 方法。
+
+- 类是对对象的抽象，它定义了对象的属性和方法。
+- 对象是类的实例，它具体化了类的定义，并可以执行类中定义的操作。
+- 类和对象之间的关系就像是模具和制造出的产品之间的关系：模具定义了产品的形状和特性，而产品则是模具的具体实例。
+
+```python
+class Car:
+    num_cars = 0  # 类属性
+ 
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        Car.num_cars += 1  # 每创建一个实例，num_cars 加一
+```
+- **实例属性：** 实例属性是指属于特定实例的属性。它们在创建实例时被赋予，并且每个实例都可以有不同的值。 通常在类的__init__方法中初始化。
+- **类属性：** 属于类本身的属性，被所有类的实例共享。可以直接在类定义中设置
+
+```python
+class Car:
+    def __init__(self, brand):
+        self.brand = brand
+        self.speed = 0
+ 
+    def accelerate(self, amount):
+        self.speed += amount
+ 
+    def brake(self, amount):
+        self.speed -= amount
+ 
+car1 = Car("Toyota")
+print(car1.speed)  # 输出: 0
+car1.accelerate(50)
+print(car1.speed)  # 输出: 50
+car1.brake(20)
+print(car1.speed)  # 输出: 30
+```
+- **实例方法：** 操作实例属性的方法，第一个参数通常是 self，代表对象本身。可以访问实例属性，并且可以改变实例的状态。
+
+```python
+class Dog:
+    num_of_dogs = 0
+ 
+    def __init__(self, name):
+        self.name = name
+        Dog.num_of_dogs += 1
+ 
+    @classmethod
+    def get_num_of_dogs(cls):
+        return cls.num_of_dogs
+ 
+dog1 = Dog("Buddy")
+dog2 = Dog("Max")
+print(Dog.get_num_of_dogs())  # 输出: 2
+```
+- **类方法：** 操作类属性的方法，使用 @classmethod 装饰器定义，第一个参数通常是 cls，代表类本身。可以访问类属性，并且可以在整个类上执行操作。
+
+```python
+class Math:
+    @staticmethod
+    def add(x, y):
+        return x + y
+# add 就是 Math 类的静态方法，提供关于类的一般信息 
+result = Math.add(5, 10)
+print(result)  # 输出: 15
+```
+- **静态方法：** 不操作实例属性或类属性的方法，使用 @staticmethod 装饰器定义。它们与类无关，不传递 self 或 cls 参数。可以在类中定义，但是不能访问 self 或 cls。
+
+### 封装
+**封装是指将数据（属性）和操作数据的方法（方法）捆绑在一起的机制。** 在封装中，对象的内部细节被隐藏起来，只有特定的方法才能访问和操作这些细节。这有助于确保数据的安全性和代码的可维护性
+
+### 如何实现封装？
+封装可以通过访问控制和访问修饰符来实现。主要有两种访问修饰符：公有属性和方法、私有属性和方法。
+
+#### 公有属性和方法 (Public Attributes and Methods)
+可以被类的外部访问。在 Python 中，默认情况下，类的所有属性和方法都是公有的
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name   # 公有属性
+        self.age = age     # 公有属性
+ 
+    def get_name(self):
+        return self.name   # 公有方法
+ 
+# 使用公有属性和方法
+person1 = Person("Tiyong", 30)
+print(person1.name)  # 输出: Tiyong
+print(person1.get_name())  # 输出: Tiyong
+```
+在这个例子中，Person类有一个公有方法 get_name()，那么其他类或代码可以通过调用这个方法来获取对象的名称。
+
+同样，有一个公有属性 age，那么其他类或代码可以直接访问和修改这个属性。**所以，我们的实例对象就可以访问公共的属性和方法。**
+
+#### 私有属性和方法 (Private Attributes and Methods)
+只能在类的内部访问，外部无法直接访问。在 Python 中，可以在属性名或方法名前加上双下划线 ‘__’ 来定义私有属性和方法
+```python
+class Person:
+    def __init__(self, name, age):
+        self.__name = name   # 私有属性
+        self.__age = age     # 私有属性
+ 
+    def __display_info(self):
+        return f"Name: {self.__name}, Age: {self.__age}"   # 私有方法
+ 
+# 外部无法直接访问私有属性和方法
+person1 = Person("TiYong", 25)
+# print(person1.__name)  # 这会引发错误，因为__name是私有属性
+# print(person1.__display_info())  # 这会引发错误，因为__display_info()是私有方法
+```
+在上面的例子中：person1对象就不能访问__name私有属性和__display_info()私有方法。
+
+尽管外部无法直接访问私有属性和方法，但我们仍然可以通过公有方法来间接访问和操作它们。
+
+这种间接访问的方式使得我们可以控制对象的状态和行为，确保数据的一致性和安全性
+```python
+class Person:
+    def __init__(self, name, age):
+        self.__name = name   # 私有属性
+        self.__age = age     # 私有属性
+ 
+    def get_name(self):
+        return self.__name   # 公有方法
+ 
+    def set_name(self, new_name):
+        self.__name = new_name   # 公有方法，用于修改私有属性
+ 
+    def display_info(self):
+        return f"Name: {self.__name}, Age: {self.__age}"   # 公有方法
+ 
+# 通过公有方法访问和修改私有属性
+person1 = Person("TiYong", 30)
+print(person1.get_name())  # 输出: TiYong
+person1.set_name("Toy")
+print(person1.display_info())  # 输出: Name: Toy, Age: 30
+```
+### 继承（Inheritance）
+继承就是允许一个类（称为子类或派生类）继承另一个类（称为父类或基类）的属性和方法。
+
+子类可以继承父类的特性，并且可以在此基础上添加自己的**新特性**。这种机制允许代码的重用和层次化的设计。 继承，就是字面上意思，继承
+- 继承允许子类重用父类的代码，避免了重复编写相同的代码片段。子类可以直接使用父类已经定义的方法和属性
+- 子类可以在不修改父类的情况下，添加新的属性和方法，从而使得代码更具可扩展性。这样可以在不影响父类的基础上，为程序添加新的功能
+#### 单继承
+单继承是指一个子类只能继承一个父类的属性和方法。这是最简单和最常见的继承类型
+```python
+class ParentClass:
+    def parent_method(self):
+        print("Parent method")
+ 
+class ChildClass(ParentClass):
+    def child_method(self):
+        print("Child method")
+ 
+# 子类继承父类的方法
+child = ChildClass()
+child.parent_method()  # 输出: Parent method
+child.child_method()   # 输出: Child method
+```
+#### 多继承
+多继承是指一个子类可以同时继承多个父类的属性和方法。这使得子类可以具有多个父类的特性，但也可能引发一些复杂性和歧义
+```python
+class ParentClass1:
+    def method1(self):
+        print("Method 1 from ParentClass1")
+ 
+class ParentClass2:
+    def method2(self):
+        print("Method 2 from ParentClass2")
+ 
+class ChildClass(ParentClass1, ParentClass2):
+    def child_method(self):
+        print("Child method")
+ 
+# 子类继承多个父类的方法
+child = ChildClass()
+child.method1()  # 输出: Method 1 from ParentClass1
+child.method2()  # 输出: Method 2 from ParentClass2
+child.child_method()  # 输出: Child method
+```
+### 多态（Polymorphism）
+
+**多态**是指允许对象在不同的情况下表现出不同的行为。简单地说，多态性意味着相同的方法调用可能会有不同的实现方式，具体取决于调用该方法的对象的类型或类的实现
+
+#### 方法重写（Method Overriding）
+方法重写是实现多态的一种方式，它允许子类覆盖（重写）父类的方法，以便在子类中实现特定的行为。当子类重新定义了**与父类同名的方法**时，调用这个方法时会执行子类的实现。通过一个例子展示方法重写：
+```python
+class Animal:
+    def speak(self):
+        raise NotImplementedError("Subclass must implement abstract method")
+ 
+class Dog(Animal):
+    def speak(self):
+        return "Woof!"
+ 
+class Cat(Animal):
+    def speak(self):
+        return "Meow!"
+ 
+# 多态性的体现
+def animal_sound(animal):
+    return animal.speak()
+ 
+dog = Dog()
+cat = Cat()
+ 
+print(animal_sound(dog))  # 输出: Woof!
+print(animal_sound(cat))  # 输出: Meow!
+```
+#### 方法重载（Method Overloading）
+方法重载是一种在同一个类中，方法名称相同但参数列表不同的技术。但是，在Python中，并没有像其他编程语言那样直接支持方法重载的特性，不过，可以通过一些技巧来模拟。
+
+比如：使用默认参数值或者 *args 和 **kwargs 参数来实现类似方法重载的效果。
+```python
+class Calculator:
+    def add(self, a, b):
+        return a + b
+ 
+    def add(self, a, b, c):
+        return a + b + c
+ 
+calc = Calculator()
+print(calc.add(2, 3))    # 输出: TypeError: add() missing 1 required positional argument: 'c'
+print(calc.add(2, 3, 4))  # 输出: 9
+```
+[Python 面向对象编程(详解 + 实战)](https://blog.csdn.net/low5252/article/details/108944057#:~:text=%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%BB%E8%A6%81%E4%BB%8B%E7%BB%8D%E4%BA%86P)
+## 模块
 
 ### 1，什么是模块
 在 Python 中，模块是一种组织 Python 代码的方法。 **模块可以包含定义（例如类、函数和变量）和可执行代码。** 
@@ -345,6 +625,58 @@ test.ptint1()  # 使用里面的功能
 
 当我们运行别的文件的时候，**`__name__`** 是不会被设置成 **`__main__`** 的
 
+### 调用其他.py文件的函数
+在写代码的时候，我们要面临的将代码清晰化，主文件的函数较为简洁，于是我们便要掌握如何调用其他.py文件的代码。
+
+如果A.py文件与B.py文件在同一个文件夹下：(A.py调用B.py的函数或者类)
+
+B.py的函数：
+```python
+def add(x,y):
+    z=x+y
+    return z
+```
+
+A.py文件调用函数:
+```python
+from B import add
+sum=add(4,5)
+```
+```python
+import B
+sum=B.add(4,5)
+```
+B.py中存在类：
+```python
+class sum():
+        def __init__(self,x,y):
+            self.x=x
+            self.y=y
+        def add(self):
+            sum=self.x+self.y
+            return sum
+```
+A.py文件调用类
+```python
+from B import sum
+get_sum=sum(4,5)
+value=get_sum.add()
+########或者
+import B
+get_sum=B.sum(4,5)
+value=get_sum.add()
+```
+如果A.py文件与B.py文件不在同一个文件夹下：(A.py调用B.py的函数或者类)
+
+则只需要在加载文件之前加载路径
+```python
+import sys
+sys.path.append('.py文件的文件夹位置')
+from B import sum
+get_sum=sum(4,5)
+value=get_sum.add()
+```
+在加载.py文件时经常会遇到 no module name ""，遇到该问题的时候我们要确定文件的路径是否错误
 
 #### 导入模块中的函数
 
